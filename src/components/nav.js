@@ -8,23 +8,22 @@ function Nav() {
   const [secSpanse, setSecSpanse] = useState(0);
   const [minSpanse, setMinSpanse] = useState(0);
 
-
   const handleStart = () => {
-    const centiInterval = setInterval(() => {
-      setCentiseconds((centiseconds) => {
-        if (centiseconds < 100) {
-          return centiseconds + 1;
-        } else {
-          return 0;
-        }
-      });
+    let startTime = Date.now();
+
+    let milliInterval = setInterval(function () {
+      let elapsedTime = Date.now() - startTime;
+      let milli = ((elapsedTime / 1000) % 1).toFixed(2);
+      let parsedMilli = milli.toString().split('.')[1];
+      setCentiseconds(parsedMilli);
     }, 10);
-    setCentiSpanse(centiInterval);
+    setCentiSpanse(milliInterval);
 
     const secInterval = setInterval(() => {
+      let elapsedTime = Date.now() - startTime;
       setSeconds((seconds) => {
-        if (seconds < 60) {
-          return seconds + 1;
+        if (seconds <= 60) {
+          return Math.floor((elapsedTime / 1000 / 1) % 60);
         } else {
           return 0;
         }
@@ -33,9 +32,11 @@ function Nav() {
     setSecSpanse(secInterval);
 
     const minInterval = setInterval(() => {
-      setMinutes((minutes) => minutes + 1);
+      let elapsedTime = Date.now() - startTime;
+      setMinutes(Math.floor((elapsedTime / 1000 / 60) % 60));
     }, 60000);
     setMinSpanse(minInterval);
+
   };
 
   const handleStop = () => {
@@ -43,10 +44,9 @@ function Nav() {
     setSeconds(0);
     setMinutes(0);
     console.log(`${minutes}:${seconds}:${centiseconds}`);
-    let total = (parseInt(minutes) * 60) + parseInt(seconds);
-    let totalSeconds = total + "." + centiseconds
+    let total = parseInt(minutes) * 60 + parseInt(seconds);
+    let totalSeconds = total + '.' + parseInt(centiseconds);
     console.log(totalSeconds);
-    // console.log(centiSpanse)
     clearInterval(centiSpanse);
     clearInterval(secSpanse);
     clearInterval(minSpanse);
@@ -54,7 +54,7 @@ function Nav() {
 
   return (
     <nav className="nav">
-      <div className="logo">logo</div>
+      <div className="logo" onClick={handleStop}>logo</div>
       <div className="characters-container">
         <div className="character">character</div>
         <div className="character">character</div>
@@ -63,7 +63,7 @@ function Nav() {
       <div className="stopwatch" onClick={handleStart}>
         <span>{minutes < 10 ? `0${minutes}` : minutes}:</span>
         <span>{seconds < 10 ? `0${seconds}` : seconds}:</span>
-        <span>{centiseconds < 10 ? `0${centiseconds}` : centiseconds} </span>
+        <span>{centiseconds === 0 ? `0${centiseconds}` : centiseconds}</span>
       </div>
     </nav>
   );
