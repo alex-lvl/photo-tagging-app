@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import RouteSwitch from './RouteSwitch';
 import reportWebVitals from './reportWebVitals';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import Nav from './components/nav';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBN-JllOYRcr_rO-VF1MWU7XOjZkTXyuAM",
@@ -24,11 +22,18 @@ const app = initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Nav />
-    <App />
+    <RouteSwitch />
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <Nav />
+//     <App />
+//   </React.StrictMode>,
+//   document.getElementById('root')
+// );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
