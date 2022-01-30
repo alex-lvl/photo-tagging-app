@@ -1,4 +1,3 @@
-import { useState } from 'react/cjs/react.development';
 import { useNavigate } from "react-router-dom";
 import './App.css';
 import Options from './components/Options';
@@ -12,17 +11,6 @@ function App() {
       let game = e.target
       console.log(game);
       navigate(`/game/${game.id}`);
-
-    // switch (e.target.src) {
-    //   case beautyGame:
-    //     console.log('beauty');
-    //     break;
-    //   case cinderellaGame:
-    //     console.log('cinderella');
-    //     break;
-    //   default:
-    //     console.log('no matchin cases');
-    // }
   };
 
   return (
