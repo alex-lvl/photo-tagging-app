@@ -10,6 +10,8 @@
 
 .characters-container {
   display: flex;
+  justify-content: center;
+  margin: 20px
 }
 
 .character {
@@ -44,6 +46,31 @@
   flex-wrap: wrap;
   max-width: 1000px;
   margin: 0 auto;
+}
+
+.game {
+  width: 100%;
+  text-align: center;
+}
+
+.game > img {
+  width: 100%;
+  max-width: 1100px;
+  /* margin: 0 auto; */
+}
+
+.character {
+  display: flex;
+  align-items: center;
+}
+
+.character > img {
+  width: 50px;
+}
+
+.character > span {
+  margin: 0 10px;
+  text-transform: capitalize;
 }
 
 @media screen and (max-width: 900px) {
