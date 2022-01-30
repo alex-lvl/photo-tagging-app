@@ -1,7 +1,7 @@
 function Options(props) {
   return (
     <div className="game-container" onClick={props.handleClick}>
-      <img src={props.image} alt={props.alt} id={props.id}/>
+      <img src={props.image} alt={props.alt} id={props.id} />
     </div>
   );
 }

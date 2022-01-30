@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 import Options from './components/Options';
 import beautyGame from './images/princess-beauty.png';
@@ -8,9 +8,9 @@ function App() {
   let navigate = useNavigate();
 
   const handleClick = async (e) => {
-      let game = e.target
-      console.log(game);
-      navigate(`/game/${game.id}`);
+    let game = e.target;
+    console.log(game);
+    navigate(`/game/${game.id}`);
   };
 
   return (

@@ -90,7 +90,7 @@ const RouteSwitch = () => {
         setCentiseconds(parsedMilli);
       }, 10);
       setCentiSpanse(milliInterval);
-  
+
       const secInterval = setInterval(() => {
         let elapsedTime = Date.now() - startTime;
         setSeconds((seconds) => {
@@ -102,20 +102,20 @@ const RouteSwitch = () => {
         });
       }, 1000);
       setSecSpanse(secInterval);
-  
+
       const minInterval = setInterval(() => {
         let elapsedTime = Date.now() - startTime;
         setMinutes(Math.floor((elapsedTime / 1000 / 60) % 60));
       }, 60000);
       setMinSpanse(minInterval);
     } else {
-      return (handleStop);
+      return handleStop;
     }
   };
 
   useEffect(() => {
     setGameOver(true);
-  }, [gameOver])
+  }, [gameOver]);
 
   return (
     <BrowserRouter>
