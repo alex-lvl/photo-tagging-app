@@ -1,7 +1,17 @@
 function Game(props) {
+  const characters = props.characters.map((character) => (
+    <div className="character" key={character.id}>
+      <img src={character.src} alt={character.name}/>
+      <span>{character.name}</span>
+    </div>
+  ));
+
   return (
-    <div className="game-container" onClick={props.handleClick}>
-      <img src={props.image} alt={props.alt} id={props.id}/>
+    <div>
+      <div className="game">
+        <img src={props.image} alt={props.alt} id={props.id}/>
+      </div>
+      <div className="characters-container">{characters}</div>
     </div>
   );
 }
