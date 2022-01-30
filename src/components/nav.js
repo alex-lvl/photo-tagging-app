@@ -55,11 +55,6 @@ function Nav() {
   return (
     <nav className="nav">
       <div className="logo" onClick={handleStop}>logo</div>
-      <div className="characters-container">
-        <div className="character">character</div>
-        <div className="character">character</div>
-        <div className="character">character</div>
-      </div>
       <div className="stopwatch" onClick={handleStart}>
         <span>{minutes < 10 ? `0${minutes}` : minutes}:</span>
         <span>{seconds < 10 ? `0${seconds}` : seconds}:</span>
