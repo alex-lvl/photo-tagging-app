@@ -15,6 +15,9 @@ import wickedFairy from './images/wickedfairy-sleepbeauty.png';
 
 const RouteSwitch = () => {
   const [gameOver, setGameOver] = useState(true);
+  useEffect(() => {
+    setGameOver(true);
+  }, [gameOver]);
   const [games, setGames] = useState([
     {
       id: 1,
@@ -67,13 +70,13 @@ const RouteSwitch = () => {
   const [minSpanse, setMinSpanse] = useState(0);
 
   const handleStop = () => {
-    setCentiseconds(0);
-    setSeconds(0);
-    setMinutes(0);
     console.log(`${minutes}:${seconds}:${centiseconds}`);
     let total = parseInt(minutes) * 60 + parseInt(seconds);
     let totalSeconds = total + '.' + parseInt(centiseconds);
     console.log(totalSeconds);
+    setCentiseconds(0);
+    setSeconds(0);
+    setMinutes(0);
     clearInterval(centiSpanse);
     clearInterval(secSpanse);
     clearInterval(minSpanse);
@@ -113,10 +116,6 @@ const RouteSwitch = () => {
     }
   };
 
-  useEffect(() => {
-    setGameOver(true);
-  }, [gameOver]);
-
   return (
     <BrowserRouter>
       <Nav minutes={minutes} seconds={seconds} centiseconds={centiseconds} />
@@ -127,11 +126,12 @@ const RouteSwitch = () => {
           path="/game/:gameId"
           element={
             <Game
-              image={games[0].gameImage}
+              image={games[1].gameImage}
               alt={'beauty game'}
-              id={games[0].id}
-              characters={games[0].characters}
+              id={games[1].id}
+              characters={games[1].characters}
               handleStart={handleStart}
+              handleStop={handleStop}
               gameOver={gameOver}
               setGameOver={setGameOver}
             />
