@@ -1,15 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import './App.css';
 import Options from './components/Options';
-import beautyGame from './images/princess-beauty.png';
-import cinderellaGame from './images/princess-cinderella.png';
 
-function App() {
+function App(props) {
   let navigate = useNavigate();
-
   const handleClick = async (e) => {
     let game = e.target;
     console.log(game);
+    props.setGameId(game.id)
     navigate(`/game/${game.id}`);
   };
 
@@ -17,13 +14,13 @@ function App() {
     <div className="App">
       <div className="games">
         <Options
-          image={beautyGame}
+          image={props.beautyGame}
           handleClick={handleClick}
           alt={'sleeping beauty game option'}
           id={1}
         />
         <Options
-          image={cinderellaGame}
+          image={props.cinderellaGame}
           handleClick={handleClick}
           alt={'cinderella game option'}
           id={2}
