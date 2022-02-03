@@ -2,56 +2,87 @@ import { useEffect } from 'react';
 import { useState } from 'react/cjs/react.development';
 
 function Game(props) {
+  const [isBeautyFound, setBeautyFound] = useState(false);
   const [sleepingBeautyCoords, setSleepBeautyCoords] = useState({
+    name: 'sleeping beauty',
     xCoord: 6.5,
     yCoord: 34,
   });
+
+  const [isKindFairyFound, setKindFairyFound] = useState(false);
   const [kindFairyCoords, setKindFairyCoords] = useState({
+    name: 'kind fairy',
     xCoord: 55,
     yCoord: 59,
   });
+
+  const [isWickedWitchFound, setWickWitchFound] = useState(false);
   const [wickedWitchCoords, setWickedWitchCoords] = useState({
+    name: 'wicked witch',
     xCoord: 27,
     yCoord: 55,
   });
 
+  const [isCinderellaFound, setCinderellaFound] = useState(false);
   const [cinderellaCoords, setCinderellaCoords] = useState({
+    name: 'cinderella',
     xCoord: 36,
     yCoord: 68,
   });
+
+  const [isPrinceFound, setPrinceFound] = useState(false);
   const [princeCoords, setPrinceCoords] = useState({
+    name: 'prince',
     xCoord: 28.5,
     yCoord: 33,
   });
+
+  const [isWickedStepMotherFound, setWickedStepMotherFound] = useState(false);
   const [wickedStepMotherCoords, setWickedStepMotherCoords] = useState({
+    name: 'wicked step mother',
     xCoord: 55,
     yCoord: 52,
   });
+  const [clickLocation, setClickLocation] = useState(0);
+
   useEffect(() => {
     props.setGameOver(false);
   }, [props.gameOver]);
   useEffect(props.handleStart, [props.gameOver]);
 
-  function highlight(e) {
+  function highlight(e, className = 'dropdown-menu-visible') {
     const highlighter = document.getElementsByClassName('highlighter')[0];
-    highlighter.style.display = 'block';
-    highlighter.style.top = e.pageY - 20+ 'px';
-    highlighter.style.left = e.pageX - 20 + 'px';
+    const dropdownMenu = document.querySelector('.dropdown-menu');
 
+    highlighter.style.display = 'block';
+    highlighter.style.top = e.pageY - 20 + 'px';
+    highlighter.style.left = e.pageX - 20 + 'px';
+    dropdownMenu.classList.toggle(className);
+    dropdownMenu.style.top = e.pageY + 10 + 'px';
+    dropdownMenu.style.left = e.pageX + 10 + 'px';
+
+    findClickLocation(e);
     setTimeout(() => {
       highlighter.style.display = 'none';
     }, 750);
   }
-
-  const isFound = (e) => {
+  
+  const findClickLocation = (e) => {
     const { width, height } = e.target.getBoundingClientRect();
     const { offsetX, offsetY } = e.nativeEvent;
     let xPos = Math.round((offsetX / width) * 100);
     let yPos = Math.round((offsetY / height) * 100);
-    let characterPosition = [55, 52];
+    setClickLocation([xPos,yPos]);
+  }
 
-    checkCoords(characterPosition, xPos, yPos);
-    highlight(e);
+  const isFound = (e) => {
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    let characterPosition = [
+      sleepingBeautyCoords.xCoord,
+      sleepingBeautyCoords.yCoord,
+    ];
+    checkCoords(characterPosition, clickLocation[0], clickLocation[1]);
+    dropdownMenu.classList.remove('dropdown-menu-visible');
 
     //SAME AS ABOVE
 
@@ -65,7 +96,7 @@ function Game(props) {
     // 'SAME AS E.NATIVEEVENT.OFFSETS
 
     // let params = "xpos=" + (x - e.target.offsetLeft) + "&ypos=" + (y - e.target.offsetTop);
-    
+
     // 'SAME AS E.NATIVEEVENT.OFFSETY
     // let x = e.pageX;
     // let y = e.pageY;
@@ -84,24 +115,55 @@ function Game(props) {
   };
 
   function checkCoords(charPosition, x, y) {
-    if (withinRange(charPosition, 'x', x) && withinRange(charPosition, 'y', y)) {
-      console.log('waldo found!');
-      return '√ WALDO FOUND!';
+    if (
+      withinRange(charPosition, 'x', x) &&
+      withinRange(charPosition, 'y', y)
+    ) {
+      switch (charPosition.name) {
+        case 'sleeping beauty':
+          setBeautyFound(true);
+          break;
+        case 'kind fairy':
+          setKindFairyFound(true);
+          break;
+        case 'wicked witch':
+          setWickWitchFound(true);
+          break;
+        case 'cinderella':
+          setCinderellaFound(true);
+          break;
+        case 'prince':
+          setPrinceFound(true);
+          break;
+        case 'wicked step mother':
+          setWickedStepMotherFound(true);
+          break;
+        default:
+      }
+      console.log('found');
+      return '√ FOUND!';
     } else {
       console.log('not within range');
+      return false;
     }
   }
 
   function withinRange(charPosition, axis, clickPos) {
     let index = isItXorY(axis);
     if (axis === 'x') {
-      if (clickPos > charPosition[index] - 2 && clickPos < charPosition[index] + 2) {
+      if (
+        clickPos > charPosition[index] - 2 &&
+        clickPos < charPosition[index] + 2
+      ) {
         return true;
       } else {
         return false;
       }
     } else if (axis === 'y') {
-      if (clickPos > charPosition[index] - 6 && clickPos < charPosition[index] + 6) {
+      if (
+        clickPos > charPosition[index] - 6 &&
+        clickPos < charPosition[index] + 6
+      ) {
         return true;
       } else {
         return false;
@@ -124,6 +186,11 @@ function Game(props) {
     </div>
   ));
 
+  const hideMenu = () => {
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    dropdownMenu.classList.remove('dropdown-menu-visible')
+  }
+
   return (
     <div>
       <div className="game">
@@ -131,10 +198,15 @@ function Game(props) {
           src={props.image}
           alt={props.alt}
           id={props.id}
-          onClick={isFound}
+          onClick={highlight}
           className="game-image"
         />
         <div className="highlighter"></div>
+          <ul className="dropdown-menu" onMouseLeave={hideMenu}>
+            <li className="dropdown-item" onClick={isFound}>link 1</li>
+            <li className="dropdown-item" onClick={isFound}>link 2</li>
+            <li className="dropdown-item" onClick={isFound}>link 3</li>
+          </ul>
       </div>
       <div className="characters-container">{characters}</div>
     </div>
