@@ -89,6 +89,37 @@ body {
   z-index: 100;
 }
 
+.dropdown-menu {
+  position: absolute;
+  z-index: 1000;
+
+  display: none;
+  padding: 0px;
+  margin: 0px;
+  width: 100px;
+  min-width: 50px;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px;
+
+  color: black;
+
+  background-color: rgb(239, 239, 239);
+  border-width: 1px;
+  border-style: solid;
+  border-color: gray;
+}
+
+.dropdown-item:hover {
+  background-color: grey;
+}
+
+.dropdown-menu-visible {
+  display: block;
+}
+
 @media screen and (max-width: 900px) {
   .games {
     justify-content: center;
