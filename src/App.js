@@ -17,13 +17,13 @@ function App(props) {
           image={props.beautyGame}
           handleClick={handleClick}
           alt={'sleeping beauty game option'}
-          id={1}
+          id={0}
         />
         <Options
           image={props.cinderellaGame}
           handleClick={handleClick}
           alt={'cinderella game option'}
-          id={2}
+          id={1}
         />
       </div>
     </div>
