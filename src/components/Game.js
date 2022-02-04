@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { useState } from 'react/cjs/react.development';
-import { useParams } from "react-router-dom"
+import { useParams } from 'react-router-dom';
 
 function Game(props) {
+  //This ensures that the page does not redirect to different route when page is refreshed
   const params = useParams();
   useEffect(() => {
-    props.setGameId(params.gameId)
-  }, [])
+    props.setGameId(params.gameId);
+  }, []);
+
   const [isBeautyFound, setBeautyFound] = useState(false);
   useEffect(() => {
     if (isBeautyFound) {
@@ -70,7 +72,7 @@ function Game(props) {
   useEffect(() => {
     props.setGameOver(false);
   }, []);
-  
+
   useEffect(props.handleStart, [props.gameOver]);
 
   function highlight(e, className = 'dropdown-menu-visible') {
@@ -100,6 +102,7 @@ function Game(props) {
 
   const isFound = (character) => {
     checkCoords(character, clickLocation[0], clickLocation[1]);
+    hideMenu();
     // dropdownMenu.classList.remove('dropdown-menu-visible');
 
     //SAME AS ABOVE
@@ -199,7 +202,11 @@ function Game(props) {
 
   const characters = props.characters.map((character) => (
     <div className="character" id={character.id} key={character.id}>
-      <img src={character.src} alt={character.name} className='character-image' />
+      <img
+        src={character.src}
+        alt={character.name}
+        className="character-image"
+      />
       <span className="character-name">{character.name}</span>
     </div>
   ));
@@ -216,7 +223,7 @@ function Game(props) {
         src={character.src}
         alt={character.name}
       />
-      <span className='dropdown-item-name'>{character.name}</span>
+      <span className="dropdown-item-name">{character.name}</span>
     </li>
   ));
 
