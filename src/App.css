@@ -61,7 +61,6 @@ body {
 .game > img {
   width: 100%;
   max-width: 1100px;
-  /* margin: 0 auto; */
 }
 
 .character {
@@ -91,33 +90,42 @@ body {
 
 .dropdown-menu {
   position: absolute;
-  z-index: 1000;
-
   display: none;
   padding: 0px;
   margin: 0px;
-  width: 100px;
+  width: 150px;
   min-width: 50px;
+
+  border: 1px solid pink;
+  z-index: 1000;
 }
 
 .dropdown-item {
-  display: block;
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  text-align: start;
+  padding: 5px 10px;
 
-  color: black;
+  color: white;
 
-  background-color: rgb(239, 239, 239);
+  background-color: rgb(40, 40, 40);
   border-width: 1px;
   border-style: solid;
-  border-color: gray;
+  border-color: pink;
 }
 
 .dropdown-item:hover {
-  background-color: grey;
+  color: black;
+  background-color: rgba(255, 173, 243);
 }
 
 .dropdown-menu-visible {
   display: block;
+}
+
+.dropdown-item-img {
+  width: 30px;
+  margin-right: 10px;
 }
 
 @media screen and (max-width: 900px) {
