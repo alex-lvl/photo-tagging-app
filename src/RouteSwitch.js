@@ -15,10 +15,16 @@ import wickedFairy from './images/wickedfairy-sleepbeauty.png';
 
 const RouteSwitch = () => {
   const [gameOver, setGameOver] = useState(true);
-  const [gameId, setGameId] = useState(1);
   useEffect(() => {
     setGameOver(true);
   }, [gameOver]);
+  const [gameId, setGameId] = useState(1);
+  const [centiseconds, setCentiseconds] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [centiSpanse, setCentiSpanse] = useState(0);
+  const [secSpanse, setSecSpanse] = useState(0);
+  const [minSpanse, setMinSpanse] = useState(0);
   const [games, setGames] = useState([
     {
       id: 1,
@@ -69,12 +75,6 @@ const RouteSwitch = () => {
       ],
     },
   ]);
-  const [centiseconds, setCentiseconds] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [centiSpanse, setCentiSpanse] = useState(0);
-  const [secSpanse, setSecSpanse] = useState(0);
-  const [minSpanse, setMinSpanse] = useState(0);
 
   const handleStop = () => {
     console.log(`${minutes}:${seconds}:${centiseconds}`);
@@ -138,7 +138,6 @@ const RouteSwitch = () => {
             />
           }
         />
-        {/* change route element */}
         <Route
           path="/game/:gameId"
           element={
