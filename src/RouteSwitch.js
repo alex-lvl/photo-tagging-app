@@ -27,17 +27,20 @@ const RouteSwitch = () => {
         {
           src: sleepingBeauty,
           name: 'sleeping beauty',
-          id: 1,
+          coordinate: [6.5, 34],
+          id: 0,
         },
         {
           src: kindFairy,
           name: 'kind fairy',
-          id: 2,
+          coordinate: [55, 59],
+          id: 1,
         },
         {
           src: wickedFairy,
           name: 'wicked fairy',
-          id: 3,
+          coordinate: [27, 55],
+          id: 2,
         },
       ],
     },
@@ -48,17 +51,20 @@ const RouteSwitch = () => {
         {
           src: cinderella,
           name: 'cinderella',
-          id: 1,
+          coordinate: [36, 68],
+          id: 0,
         },
         {
           src: prince,
           name: 'prince',
-          id: 2,
+          coordinate: [28.5, 33],
+          id: 1,
         },
         {
           src: wickedStepMother,
           name: 'wicked step mother',
-          id: 3,
+          coordinate: [55, 52],
+          id: 2,
         },
       ],
     },
@@ -78,6 +84,7 @@ const RouteSwitch = () => {
     setCentiseconds(0);
     setSeconds(0);
     setMinutes(0);
+    setGameOver(true);
     clearInterval(centiSpanse);
     clearInterval(secSpanse);
     clearInterval(minSpanse);
@@ -121,20 +128,30 @@ const RouteSwitch = () => {
     <BrowserRouter>
       <Nav minutes={minutes} seconds={seconds} centiseconds={centiseconds} />
       <Routes>
-        <Route path="/" element={<App cinderellaGame={cinderellaGame} beautyGame={beautyGame} setGameId={setGameId} />} />
+        <Route
+          path="/"
+          element={
+            <App
+              cinderellaGame={cinderellaGame}
+              beautyGame={beautyGame}
+              setGameId={setGameId}
+            />
+          }
+        />
         {/* change route element */}
         <Route
           path="/game/:gameId"
           element={
             <Game
-              image={games[gameId-1].gameImage}
+              image={games[gameId].gameImage}
               alt={'beauty game'}
-              id={games[gameId-1].id}
-              characters={games[gameId-1].characters}
+              id={games[gameId].id}
+              characters={games[gameId].characters}
               handleStart={handleStart}
               handleStop={handleStop}
               gameOver={gameOver}
               setGameOver={setGameOver}
+              setGameId={setGameId}
             />
           }
         />
