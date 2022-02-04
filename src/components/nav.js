@@ -1,7 +1,7 @@
 function Nav(props) {
   return (
     <nav className="nav">
-      <div className="logo">logo</div>
+      <div className="logo">Where's The Princess</div>
       <div className="stopwatch">
         <span>{props.minutes < 10 ? `0${props.minutes}` : props.minutes}:</span>
         <span>{props.seconds < 10 ? `0${props.seconds}` : props.seconds}:</span>
