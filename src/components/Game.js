@@ -1,53 +1,76 @@
 import { useEffect } from 'react';
 import { useState } from 'react/cjs/react.development';
+import { useParams } from "react-router-dom"
 
 function Game(props) {
+  const params = useParams();
+  useEffect(() => {
+    props.setGameId(params.gameId)
+  }, [])
   const [isBeautyFound, setBeautyFound] = useState(false);
-  const [sleepingBeautyCoords, setSleepBeautyCoords] = useState({
-    name: 'sleeping beauty',
-    xCoord: 6.5,
-    yCoord: 34,
-  });
+  useEffect(() => {
+    if (isBeautyFound) {
+      makeTransparent(0);
+    }
+  }, [isBeautyFound]);
 
   const [isKindFairyFound, setKindFairyFound] = useState(false);
-  const [kindFairyCoords, setKindFairyCoords] = useState({
-    name: 'kind fairy',
-    xCoord: 55,
-    yCoord: 59,
-  });
+  useEffect(() => {
+    if (isKindFairyFound) {
+      makeTransparent(1);
+    }
+  }, [isKindFairyFound]);
 
-  const [isWickedWitchFound, setWickWitchFound] = useState(false);
-  const [wickedWitchCoords, setWickedWitchCoords] = useState({
-    name: 'wicked witch',
-    xCoord: 27,
-    yCoord: 55,
-  });
+  const [isWickedFairyFound, setWickedFairyFound] = useState(false);
+  useEffect(() => {
+    if (isWickedFairyFound) {
+      makeTransparent(2);
+    }
+  }, [isWickedFairyFound]);
 
   const [isCinderellaFound, setCinderellaFound] = useState(false);
-  const [cinderellaCoords, setCinderellaCoords] = useState({
-    name: 'cinderella',
-    xCoord: 36,
-    yCoord: 68,
-  });
+  useEffect(() => {
+    if (isCinderellaFound) {
+      makeTransparent(0);
+    }
+  }, [isCinderellaFound]);
 
   const [isPrinceFound, setPrinceFound] = useState(false);
-  const [princeCoords, setPrinceCoords] = useState({
-    name: 'prince',
-    xCoord: 28.5,
-    yCoord: 33,
-  });
+  useEffect(() => {
+    if (isPrinceFound) {
+      makeTransparent(1);
+    }
+  }, [isPrinceFound]);
 
   const [isWickedStepMotherFound, setWickedStepMotherFound] = useState(false);
-  const [wickedStepMotherCoords, setWickedStepMotherCoords] = useState({
-    name: 'wicked step mother',
-    xCoord: 55,
-    yCoord: 52,
-  });
+  useEffect(() => {
+    if (isWickedStepMotherFound) {
+      makeTransparent(2);
+    }
+  }, [isWickedStepMotherFound]);
+
+  useEffect(() => {
+    if (
+      (isBeautyFound && isKindFairyFound && isWickedFairyFound) ||
+      (isCinderellaFound && isPrinceFound && isWickedStepMotherFound)
+    ) {
+      props.handleStop();
+    }
+  }, [
+    isBeautyFound,
+    isKindFairyFound,
+    isWickedFairyFound,
+    isCinderellaFound,
+    isPrinceFound,
+    isWickedStepMotherFound,
+  ]);
+
   const [clickLocation, setClickLocation] = useState(0);
 
   useEffect(() => {
     props.setGameOver(false);
-  }, [props.gameOver]);
+  }, []);
+  
   useEffect(props.handleStart, [props.gameOver]);
 
   function highlight(e, className = 'dropdown-menu-visible') {
@@ -66,23 +89,18 @@ function Game(props) {
       highlighter.style.display = 'none';
     }, 750);
   }
-  
+
   const findClickLocation = (e) => {
     const { width, height } = e.target.getBoundingClientRect();
     const { offsetX, offsetY } = e.nativeEvent;
     let xPos = Math.round((offsetX / width) * 100);
     let yPos = Math.round((offsetY / height) * 100);
-    setClickLocation([xPos,yPos]);
-  }
+    setClickLocation([xPos, yPos]);
+  };
 
-  const isFound = (e) => {
-    const dropdownMenu = document.querySelector('.dropdown-menu');
-    let characterPosition = [
-      sleepingBeautyCoords.xCoord,
-      sleepingBeautyCoords.yCoord,
-    ];
-    checkCoords(characterPosition, clickLocation[0], clickLocation[1]);
-    dropdownMenu.classList.remove('dropdown-menu-visible');
+  const isFound = (character) => {
+    checkCoords(character, clickLocation[0], clickLocation[1]);
+    // dropdownMenu.classList.remove('dropdown-menu-visible');
 
     //SAME AS ABOVE
 
@@ -116,8 +134,8 @@ function Game(props) {
 
   function checkCoords(charPosition, x, y) {
     if (
-      withinRange(charPosition, 'x', x) &&
-      withinRange(charPosition, 'y', y)
+      withinRange(charPosition.coordinate, 'x', x) &&
+      withinRange(charPosition.coordinate, 'y', y)
     ) {
       switch (charPosition.name) {
         case 'sleeping beauty':
@@ -126,8 +144,8 @@ function Game(props) {
         case 'kind fairy':
           setKindFairyFound(true);
           break;
-        case 'wicked witch':
-          setWickWitchFound(true);
+        case 'wicked fairy':
+          setWickedFairyFound(true);
           break;
         case 'cinderella':
           setCinderellaFound(true);
@@ -180,15 +198,43 @@ function Game(props) {
   }
 
   const characters = props.characters.map((character) => (
-    <div className="character" key={character.id}>
-      <img src={character.src} alt={character.name} />
-      <span>{character.name}</span>
+    <div className="character" id={character.id} key={character.id}>
+      <img src={character.src} alt={character.name} className='character-image' />
+      <span className="character-name">{character.name}</span>
     </div>
+  ));
+
+  const dropDownItem = props.characters.map((character) => (
+    <li
+      className="dropdown-item"
+      onClick={() => isFound(character)}
+      id={character.id}
+      key={character.id}
+    >
+      <img
+        className="dropdown-item-img"
+        src={character.src}
+        alt={character.name}
+      />
+      <span className='dropdown-item-name'>{character.name}</span>
+    </li>
   ));
 
   const hideMenu = () => {
     const dropdownMenu = document.querySelector('.dropdown-menu');
-    dropdownMenu.classList.remove('dropdown-menu-visible')
+    dropdownMenu.classList.remove('dropdown-menu-visible');
+  };
+
+  function makeTransparent(id) {
+    const dropdownImage = document.querySelectorAll('.dropdown-item-img');
+    const dropdownName = document.querySelectorAll('.dropdown-item-name');
+    const characterImage = document.querySelectorAll('.character-image');
+    const characterName = document.querySelectorAll('.character-name');
+
+    characterImage[id].style.opacity = 0.5;
+    characterName[id].style.opacity = 0.5;
+    dropdownImage[id].style.opacity = 0.5;
+    dropdownName[id].style.color = 'lime';
   }
 
   return (
@@ -202,11 +248,9 @@ function Game(props) {
           className="game-image"
         />
         <div className="highlighter"></div>
-          <ul className="dropdown-menu" onMouseLeave={hideMenu}>
-            <li className="dropdown-item" onClick={isFound}>link 1</li>
-            <li className="dropdown-item" onClick={isFound}>link 2</li>
-            <li className="dropdown-item" onClick={isFound}>link 3</li>
-          </ul>
+        <ul className="dropdown-menu" onMouseLeave={hideMenu}>
+          {dropDownItem}
+        </ul>
       </div>
       <div className="characters-container">{characters}</div>
     </div>
