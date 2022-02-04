@@ -66,6 +66,7 @@ body {
 .character {
   display: flex;
   align-items: center;
+  padding: 10px;
 }
 
 .character > img {
@@ -106,6 +107,7 @@ body {
   text-align: start;
   padding: 5px 10px;
 
+  text-transform: capitalize;
   color: white;
 
   background-color: rgb(40, 40, 40);
@@ -131,5 +133,9 @@ body {
 @media screen and (max-width: 900px) {
   .games {
     justify-content: center;
+  }
+
+  .nav {
+    justify-content: space-between;
   }
 }
