@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import './App.css';
 import App from './App';
 import Nav from './components/Nav';
@@ -16,8 +16,8 @@ import wickedFairy from './images/wickedfairy-sleepbeauty.png';
 const RouteSwitch = () => {
   const [gameOver, setGameOver] = useState(true);
   useEffect(() => {
-    setGameOver(true);
-  }, [gameOver]);
+    return () => setGameOver(false);
+  }, []);
   const [gameId, setGameId] = useState(1);
   const [centiseconds, setCentiseconds] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -76,6 +76,18 @@ const RouteSwitch = () => {
     },
   ]);
 
+  const handleReset = () => {
+    handleStop();
+    setCentiseconds(0);
+    setSeconds(0);
+    setMinutes(0);
+    setCentiSpanse(0);
+    setSecSpanse(0);
+    setMinSpanse(0);
+    setGameOver(false);
+    handleStart();
+  }
+
   const handleStop = () => {
     console.log(`${minutes}:${seconds}:${centiseconds}`);
     let total = parseInt(minutes) * 60 + parseInt(seconds);
@@ -84,7 +96,6 @@ const RouteSwitch = () => {
     setCentiseconds(0);
     setSeconds(0);
     setMinutes(0);
-    setGameOver(true);
     clearInterval(centiSpanse);
     clearInterval(secSpanse);
     clearInterval(minSpanse);
@@ -124,6 +135,20 @@ const RouteSwitch = () => {
     }
   };
 
+  //wrong method of hooks. exhaustive dependecy
+  useEffect(() => {
+    if (gameOver) {
+      handleStop();
+    } else {
+      handleStart();
+    }
+  }, [gameOver])
+
+  //this synchronizes the change of state from a child component
+  const wrapperSetGameOver = useCallback(val => {
+    setGameOver(val);
+  }, [setGameOver]); 
+
   return (
     <BrowserRouter>
       <Nav minutes={minutes} seconds={seconds} centiseconds={centiseconds} />
@@ -134,6 +159,8 @@ const RouteSwitch = () => {
             <App
               cinderellaGame={cinderellaGame}
               beautyGame={beautyGame}
+              handleStart={handleStart}
+              games={games}
               setGameId={setGameId}
             />
           }
@@ -148,8 +175,9 @@ const RouteSwitch = () => {
               characters={games[gameId].characters}
               handleStart={handleStart}
               handleStop={handleStop}
+              handleReset={handleReset}
               gameOver={gameOver}
-              setGameOver={setGameOver}
+              wrapperSetGameOver={wrapperSetGameOver}
               setGameId={setGameId}
             />
           }
