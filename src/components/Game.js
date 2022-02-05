@@ -3,16 +3,27 @@ import { useState } from 'react/cjs/react.development';
 import { useParams } from 'react-router-dom';
 
 function Game(props) {
+  const feedbackStatus = document.querySelector('.feedback');
+  const [gameOver, setGameOver] = useState(false);
+  useEffect(() => {
+    props.wrapperSetGameOver(gameOver);
+  }, [props.wrapperSetGameOver, gameOver]);
+  
   //This ensures that the page does not redirect to different route when page is refreshed
   const params = useParams();
   useEffect(() => {
     props.setGameId(params.gameId);
+    return () => {
+      props.wrapperSetGameOver(true);
+    };
   }, []);
 
   const [isBeautyFound, setBeautyFound] = useState(false);
   useEffect(() => {
     if (isBeautyFound) {
       makeTransparent(0);
+    } else {
+      makeVisible(0);
     }
   }, [isBeautyFound]);
 
@@ -20,6 +31,8 @@ function Game(props) {
   useEffect(() => {
     if (isKindFairyFound) {
       makeTransparent(1);
+    } else {
+      makeVisible(1);
     }
   }, [isKindFairyFound]);
 
@@ -27,6 +40,8 @@ function Game(props) {
   useEffect(() => {
     if (isWickedFairyFound) {
       makeTransparent(2);
+    } else {
+      makeVisible(2);
     }
   }, [isWickedFairyFound]);
 
@@ -34,6 +49,8 @@ function Game(props) {
   useEffect(() => {
     if (isCinderellaFound) {
       makeTransparent(0);
+    } else {
+      makeVisible(0);
     }
   }, [isCinderellaFound]);
 
@@ -41,6 +58,8 @@ function Game(props) {
   useEffect(() => {
     if (isPrinceFound) {
       makeTransparent(1);
+    } else {
+      makeVisible(1);
     }
   }, [isPrinceFound]);
 
@@ -48,6 +67,8 @@ function Game(props) {
   useEffect(() => {
     if (isWickedStepMotherFound) {
       makeTransparent(2);
+    } else {
+      makeVisible(2);
     }
   }, [isWickedStepMotherFound]);
 
@@ -56,9 +77,11 @@ function Game(props) {
       (isBeautyFound && isKindFairyFound && isWickedFairyFound) ||
       (isCinderellaFound && isPrinceFound && isWickedStepMotherFound)
     ) {
-      props.handleStop();
+      setGameOver(true);
+      feedbackStatus.textContent = 'Game Over! you found all the characters!';
     }
   }, [
+    feedbackStatus,
     isBeautyFound,
     isKindFairyFound,
     isWickedFairyFound,
@@ -68,12 +91,6 @@ function Game(props) {
   ]);
 
   const [clickLocation, setClickLocation] = useState(0);
-
-  useEffect(() => {
-    props.setGameOver(false);
-  }, []);
-
-  useEffect(props.handleStart, [props.gameOver]);
 
   function highlight(e, className = 'dropdown-menu-visible') {
     const highlighter = document.getElementsByClassName('highlighter')[0];
@@ -101,7 +118,9 @@ function Game(props) {
   };
 
   const isFound = (character) => {
-    checkCoords(character, clickLocation[0], clickLocation[1]);
+    if (!gameOver) {
+      checkCoords(character, clickLocation[0], clickLocation[1]);
+    }
     hideMenu();
     // dropdownMenu.classList.remove('dropdown-menu-visible');
 
@@ -244,6 +263,18 @@ function Game(props) {
     dropdownName[id].style.color = 'lime';
   }
 
+  function makeVisible(id) {
+    const dropdownImage = document.querySelectorAll('.dropdown-item-img');
+    const dropdownName = document.querySelectorAll('.dropdown-item-name');
+    const characterImage = document.querySelectorAll('.character-image');
+    const characterName = document.querySelectorAll('.character-name');
+
+    characterImage[id].style.opacity = 1;
+    characterName[id].style.opacity = 1;
+    dropdownImage[id].style.opacity = 1;
+    dropdownName[id].style.color = 'white';
+  }
+
   return (
     <div>
       <div className="game">
@@ -259,6 +290,22 @@ function Game(props) {
           {dropDownItem}
         </ul>
       </div>
+      <p className="feedback">find the characters!</p>
+      <button
+        onClick={() => {
+          props.handleReset();
+          setBeautyFound(false);
+          setKindFairyFound(false);
+          setWickedFairyFound(false);
+          setCinderellaFound(false);
+          setPrinceFound(false);
+          setWickedStepMotherFound(false);
+          setGameOver(false);
+          feedbackStatus.textContent = 'Find the characters!';
+        }}
+      >
+        reset
+      </button>
       <div className="characters-container">{characters}</div>
     </div>
   );
