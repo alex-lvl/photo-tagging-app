@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 function Game(props) {
   const feedbackStatus = document.querySelector('.feedback');
   const [gameOver, setGameOver] = useState(false);
+  //exhaustive dependency
   useEffect(() => {
     props.wrapperSetGameOver(gameOver);
   }, [props.wrapperSetGameOver, gameOver]);
