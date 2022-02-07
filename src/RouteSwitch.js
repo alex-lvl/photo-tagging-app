@@ -25,6 +25,7 @@ const RouteSwitch = () => {
   const [centiSpanse, setCentiSpanse] = useState(0);
   const [secSpanse, setSecSpanse] = useState(0);
   const [minSpanse, setMinSpanse] = useState(0);
+  const [totalSeconds, setTotalSeconds] = useState(0);
   const [games, setGames] = useState([
     {
       id: 1,
@@ -91,8 +92,7 @@ const RouteSwitch = () => {
   const handleStop = () => {
     console.log(`${minutes}:${seconds}:${centiseconds}`);
     let total = parseInt(minutes) * 60 + parseInt(seconds);
-    let totalSeconds = total + '.' + parseInt(centiseconds);
-    console.log(totalSeconds);
+    setTotalSeconds(total + '.' + parseInt(centiseconds));
     setCentiseconds(0);
     setSeconds(0);
     setMinutes(0);
