@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Nav(props) {
   return (
     <nav className="nav">
@@ -11,6 +13,11 @@ function Nav(props) {
             : props.centiseconds}
         </span>
       </div>
+      <div>
+        <Link className="nav-link" to="/">home</Link>
+        <Link className="nav-link" to="leaderboard">leaderboard</Link>
+      </div>
+      
     </nav>
   );
 }
