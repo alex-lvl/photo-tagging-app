@@ -12,6 +12,7 @@ import wickedStepMother from './images/wickedstepmother-cinderella.png';
 import sleepingBeauty from './images/sleepingbeauty.png';
 import kindFairy from './images/kindfairy-sleepbeauty.png';
 import wickedFairy from './images/wickedfairy-sleepbeauty.png';
+import Leaderboard from './components/Leaderboard';
 
 const RouteSwitch = () => {
   const [gameOver, setGameOver] = useState(true);
@@ -87,7 +88,7 @@ const RouteSwitch = () => {
     setMinSpanse(0);
     setGameOver(false);
     handleStart();
-  }
+  };
 
   const handleStop = () => {
     console.log(`${minutes}:${seconds}:${centiseconds}`);
@@ -142,12 +143,15 @@ const RouteSwitch = () => {
     } else {
       handleStart();
     }
-  }, [gameOver])
+  }, [gameOver]);
 
   //this synchronizes the change of state from a child component
-  const wrapperSetGameOver = useCallback(val => {
-    setGameOver(val);
-  }, [setGameOver]); 
+  const wrapperSetGameOver = useCallback(
+    (val) => {
+      setGameOver(val);
+    },
+    [setGameOver]
+  );
 
   return (
     <BrowserRouter>
@@ -180,6 +184,17 @@ const RouteSwitch = () => {
               wrapperSetGameOver={wrapperSetGameOver}
               setGameId={setGameId}
               totalSeconds={totalSeconds}
+            />
+          }
+        />
+        <Route
+          path="/leaderboard"
+          element={
+            <Leaderboard
+              cinderellaGame={cinderellaGame}
+              beautyGame={beautyGame}
+              games={games}
+              setGameId={setGameId}
             />
           }
         />
