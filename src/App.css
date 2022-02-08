@@ -19,11 +19,11 @@ body {
 }
 
 .nav-link {
- padding: 0 10px;
- text-transform: capitalize;
- text-decoration: none;
- color: inherit;
- transition: ease-in 0.2s;
+  padding: 0 10px;
+  text-transform: capitalize;
+  text-decoration: none;
+  color: inherit;
+  transition: ease-in 0.2s;
 }
 
 .nav-link:hover {
@@ -190,6 +190,7 @@ h4 {
   width: 100%;
   z-index: 100;
 }
+
 .formPopup {
   display: none;
   position: fixed;
@@ -199,13 +200,15 @@ h4 {
   border: 3px solid #999999;
   z-index: 100;
 }
+
 .formContainer {
   max-width: 300px;
   padding: 20px;
   background-color: #fff;
 }
-.formContainer input[type=text],
-.formContainer input[type=password] {
+
+.formContainer input[type='text'],
+.formContainer input[type='password'] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 20px 0;
@@ -215,11 +218,13 @@ h4 {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
-.formContainer input[type=text]:focus,
-.formContainer input[type=password]:focus {
+
+.formContainer input[type='text']:focus,
+.formContainer input[type='password']:focus {
   background-color: #ddd;
   outline: none;
 }
+
 .formContainer .btn {
   padding: 12px 20px;
   border: none;
@@ -230,12 +235,39 @@ h4 {
   margin-bottom: 15px;
   opacity: 0.8;
 }
+
 .formContainer .cancel {
   background-color: #cc0000;
 }
+
 .formContainer .btn:hover,
 .openButton:hover {
   opacity: 1;
+}
+
+table {
+  width: 90%;
+  margin: 0 auto;
+
+  text-align: left;
+  font-family: monospace;
+  border: 1px solid #333;
+  border-collapse: collapse
+}
+
+th,
+td {
+  margin: 0;
+  padding: 10px;
+
+  border: none;
+}
+
+thead,
+tfoot {
+  background-color: #333;
+  color: #fff;
+  text-transform: uppercase;
 }
 
 @media screen and (max-width: 900px) {
