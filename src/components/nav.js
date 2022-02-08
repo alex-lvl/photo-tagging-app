@@ -15,7 +15,7 @@ function Nav(props) {
       </div>
       <div>
         <Link className="nav-link" to="/">home</Link>
-        <Link className="nav-link" to="leaderboard">leaderboard</Link>
+        <Link className="nav-link" to="leaderboard">Leaderboard</Link>
       </div>
       
     </nav>
