@@ -179,6 +179,7 @@ const RouteSwitch = () => {
               gameOver={gameOver}
               wrapperSetGameOver={wrapperSetGameOver}
               setGameId={setGameId}
+              totalSeconds={totalSeconds}
             />
           }
         />
