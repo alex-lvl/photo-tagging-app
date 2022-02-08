@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { useState } from 'react/cjs/react.development';
 import { useParams } from 'react-router-dom';
-
 function Game(props) {
   const feedbackStatus = document.querySelector('.feedback');
+  const popupForm = document.querySelector('.formPopup');
   const [gameOver, setGameOver] = useState(false);
   //exhaustive dependency
   useEffect(() => {
     props.wrapperSetGameOver(gameOver);
   }, [props.wrapperSetGameOver, gameOver]);
-  
+
   //This ensures that the page does not redirect to different route when page is refreshed
   const params = useParams();
   useEffect(() => {
@@ -79,6 +79,7 @@ function Game(props) {
       (isCinderellaFound && isPrinceFound && isWickedStepMotherFound)
     ) {
       setGameOver(true);
+      popupForm.style.display = 'block';
       feedbackStatus.textContent = 'Game Over! you found all the characters!';
     }
   }, [
@@ -292,22 +293,57 @@ function Game(props) {
         </ul>
       </div>
       <p className="feedback">find the characters!</p>
-      <button
-        onClick={() => {
-          props.handleReset();
-          setBeautyFound(false);
-          setKindFairyFound(false);
-          setWickedFairyFound(false);
-          setCinderellaFound(false);
-          setPrinceFound(false);
-          setWickedStepMotherFound(false);
-          setGameOver(false);
-          feedbackStatus.textContent = 'Find the characters!';
-        }}
-      >
-        reset
-      </button>
       <div className="characters-container">{characters}</div>
+
+      <div className="loginPopup">
+        <div className="formPopup" id="popupForm">
+          <form className="formContainer">
+            <h2>
+              <span>You found all the characters in:</span>
+            </h2>
+            <h2>
+              <span className="total-second">
+                {props.totalSeconds} seconds!
+              </span>
+            </h2>
+            <label htmlFor="email">
+              <strong>Name</strong>
+            </label>
+            <input
+              type="text"
+              id="email"
+              placeholder="Your Name"
+              name="email"
+              required
+            />
+            {/* <label htmlFor="psw">
+              <strong>Password</strong>
+            </label>
+            <input type="password" id="psw" placeholder="Your Password" name="psw" required/> */}
+            <button type="submit" className="btn">
+              Submit Score
+            </button>
+            <button
+              type="button"
+              className="btn cancel"
+              onClick={() => {
+                props.handleReset();
+                setBeautyFound(false);
+                setKindFairyFound(false);
+                setWickedFairyFound(false);
+                setCinderellaFound(false);
+                setPrinceFound(false);
+                setWickedStepMotherFound(false);
+                setGameOver(false);
+                feedbackStatus.textContent = 'Find the characters!';
+                popupForm.style.display = "none";
+              }}
+            >
+              Try Again
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
