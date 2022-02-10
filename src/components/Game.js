@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { collection, addDoc } from "firebase/firestore"; 
+import { db } from '../firebase-config'
 
 function Game(props) {
   const feedbackStatus = document.querySelector('.feedback');
   const popupForm = document.querySelector('.formPopup');
+  const submitBtn = document.querySelector('.btn');
+  const [userName, setUserName] = useState('');
   const [gameOver, setGameOver] = useState(false);
   //exhaustive dependency
   useEffect(() => {
@@ -262,6 +266,7 @@ function Game(props) {
 
     characterImage[id].style.opacity = 0.5;
     characterName[id].style.opacity = 0.5;
+    characterName[id].style.color = 'green';
     dropdownImage[id].style.opacity = 0.5;
     dropdownName[id].style.color = 'lime';
   }
@@ -276,6 +281,32 @@ function Game(props) {
     characterName[id].style.opacity = 1;
     dropdownImage[id].style.opacity = 1;
     dropdownName[id].style.color = 'white';
+  }
+
+  function handleChange(e) {
+    setUserName(e.target.value);
+  }
+
+  async function submitScore(e) {
+    try {
+      if (userName !== '' && userName.length < 25) {
+        submitBtn.style.display = 'none'
+        e.preventDefault();
+        const docRef = await addDoc(collection(db, "scores"), {
+          name: userName,
+          score: props.totalSeconds,
+        });
+        popupForm.style.border = '3px solid green'
+        console.log("Document written with ID: ", docRef.id);
+      } else {
+        popupForm.style.border = '3px solid red'
+      }
+    } catch (err) {
+      e.preventDefault();
+      submitBtn.style.display = 'block'
+      popupForm.style.border = '3px solid red'
+      console.error("Error adding document: ", err);
+    }
   }
 
   return (
@@ -307,21 +338,27 @@ function Game(props) {
                 {props.totalSeconds} seconds!
               </span>
             </h2>
-            <label htmlFor="email">
+            <label htmlFor="name">
               <strong>Name</strong>
             </label>
             <input
               type="text"
               id="email"
               placeholder="Your Name"
-              name="email"
+              name="name"
+              onChange={handleChange}
+              maxLength='25'
               required
             />
             {/* <label htmlFor="psw">
               <strong>Password</strong>
             </label>
             <input type="password" id="psw" placeholder="Your Password" name="psw" required/> */}
-            <button type="submit" className="btn">
+            <button
+              type="submit"
+              className="btn"
+              onClick={submitScore}
+            >
               Submit Score
             </button>
             <button
@@ -337,7 +374,9 @@ function Game(props) {
                 setWickedStepMotherFound(false);
                 setGameOver(false);
                 feedbackStatus.textContent = 'Find the characters!';
-                popupForm.style.display = "none";
+                submitBtn.style.display = 'block';
+                popupForm.style.border = '3px solid #999999'
+                popupForm.style.display = 'none';
               }}
             >
               Try Again
