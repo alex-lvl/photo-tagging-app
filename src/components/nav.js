@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 function Nav(props) {
   return (
@@ -14,10 +14,13 @@ function Nav(props) {
         </span>
       </div>
       <div>
-        <Link className="nav-link" to="/">home</Link>
-        <Link className="nav-link" to="leaderboard">Leaderboard</Link>
+        <Link className="nav-link" to="/">
+          home
+        </Link>
+        <Link className="nav-link" to="leaderboard">
+          Leaderboard
+        </Link>
       </div>
-      
     </nav>
   );
 }
