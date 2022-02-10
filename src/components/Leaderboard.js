@@ -1,6 +1,10 @@
 import Levels from './Levels';
 
 function Leaderboard(props) {
+  const getLeaders = () => {
+    console.log('click');
+  }
+
   return (
     <div className="leaderboard">
       <div className="games">
@@ -9,6 +13,7 @@ function Leaderboard(props) {
           game={'sleeping beauty'}
           image={props.beautyGame}
           alt={'sleeping beauty game option'}
+          getLeaders={getLeaders}
           id={0}
         />
         <Levels
@@ -16,6 +21,7 @@ function Leaderboard(props) {
           game={'cinderella'}
           image={props.cinderellaGame}
           alt={'cinderella game option'}
+          getLeaders={getLeaders}
           id={1}
         />
       </div>
