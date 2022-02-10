@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useState } from 'react/cjs/react.development';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+
 function Game(props) {
   const feedbackStatus = document.querySelector('.feedback');
   const popupForm = document.querySelector('.formPopup');
@@ -83,6 +83,7 @@ function Game(props) {
       feedbackStatus.textContent = 'Game Over! you found all the characters!';
     }
   }, [
+    popupForm,
     feedbackStatus,
     isBeautyFound,
     isKindFairyFound,
