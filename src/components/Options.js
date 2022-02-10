@@ -16,7 +16,9 @@ function Options(props) {
       <h4>{props.game}</h4>
       <p>Find these characters:</p>
       {characters}
-      <button className="start-btn" id={props.id} onClick={props.handleClick}>start game</button>
+      <button className="start-btn" id={props.id} onClick={props.handleClick}>
+        start game
+      </button>
     </div>
   );
 }
