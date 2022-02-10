@@ -93,7 +93,7 @@ const RouteSwitch = () => {
   const handleStop = () => {
     console.log(`${minutes}:${seconds}:${centiseconds}`);
     let total = parseInt(minutes) * 60 + parseInt(seconds);
-    setTotalSeconds(total + '.' + parseInt(centiseconds));
+    setTotalSeconds(parseFloat(total + '.' + centiseconds));
     setCentiseconds(0);
     setSeconds(0);
     setMinutes(0);
