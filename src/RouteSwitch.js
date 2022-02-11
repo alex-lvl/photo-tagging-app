@@ -13,6 +13,8 @@ import sleepingBeauty from './images/sleepingbeauty.png';
 import kindFairy from './images/kindfairy-sleepbeauty.png';
 import wickedFairy from './images/wickedfairy-sleepbeauty.png';
 import Leaderboard from './components/Leaderboard';
+import { query, collection, getDocs } from 'firebase/firestore';
+import { db } from './firebase-config';
 
 const RouteSwitch = () => {
   const [gameOver, setGameOver] = useState(true);
@@ -35,19 +37,16 @@ const RouteSwitch = () => {
         {
           src: sleepingBeauty,
           name: 'sleeping beauty',
-          coordinate: [6.5, 34],
           id: 0,
         },
         {
           src: kindFairy,
           name: 'kind fairy',
-          coordinate: [55, 59],
           id: 1,
         },
         {
           src: wickedFairy,
           name: 'wicked fairy',
-          coordinate: [27, 55],
           id: 2,
         },
       ],
@@ -59,24 +58,89 @@ const RouteSwitch = () => {
         {
           src: cinderella,
           name: 'cinderella',
-          coordinate: [36, 68],
           id: 0,
         },
         {
           src: prince,
           name: 'prince',
-          coordinate: [28.5, 33],
           id: 1,
         },
         {
           src: wickedStepMother,
           name: 'wicked step mother',
-          coordinate: [55, 52],
           id: 2,
         },
       ],
     },
   ]);
+
+  useEffect(() => {
+    const loadCoordinates = async () => {
+      try {
+        setGames([
+          {
+            id: 1,
+            gameImage: beautyGame,
+            characters: [
+              {
+                src: sleepingBeauty,
+                name: 'sleeping beauty',
+                coordinate: await fetchCoordinates('sleepingbeauty'),
+                id: 0,
+              },
+              {
+                src: kindFairy,
+                name: 'kind fairy',
+                coordinate: await fetchCoordinates('kindfairy'),
+                id: 1,
+              },
+              {
+                src: wickedFairy,
+                name: 'wicked fairy',
+                coordinate: await fetchCoordinates('wickedfairy'),
+                id: 2,
+              },
+            ],
+          },
+          {
+            id: 2,
+            gameImage: cinderellaGame,
+            characters: [
+              {
+                src: cinderella,
+                name: 'cinderella',
+                coordinate: await fetchCoordinates('cinderella'),
+                id: 0,
+              },
+              {
+                src: prince,
+                name: 'prince',
+                coordinate: await fetchCoordinates('prince'),
+                id: 1,
+              },
+              {
+                src: wickedStepMother,
+                name: 'wicked step mother',
+                coordinate: await fetchCoordinates('wickedstepmother'),
+                id: 2,
+              },
+            ],
+          },
+        ]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    loadCoordinates();
+  }, []);
+
+  async function fetchCoordinates(collectName) {
+    let coordsQuery = query(collection(db, collectName));
+    const querySnapshot = await getDocs(coordsQuery);
+    const coordinates = querySnapshot.docs.map((doc) => doc.data());
+    return coordinates[0].coordinate;
+  }
 
   const handleReset = () => {
     handleStop();
