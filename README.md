@@ -32,3 +32,5 @@ Have anonymous users signed in and grab their uuid in order to update their prev
 ## References
 
 [The Odin Project](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/where-s-waldo-a-photo-tagging-app)
+
+[Live Demo](https://photo-tagging-3a70f.web.app/)
